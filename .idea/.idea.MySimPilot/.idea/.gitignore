@@ -5,6 +5,8 @@
 /contentModel.xml
 /projectSettingsUpdater.xml
 /modules.xml
+/bin/
+/packages/
 /.idea.MySimPilot.iml
 # Editor-based HTTP Client requests
 /httpRequests/

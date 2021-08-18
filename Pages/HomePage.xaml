@@ -1,0 +1,83 @@
+﻿<Page x:Class="MySimPilot.Pages.HomePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:MySimPilot.Pages"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      xmlns:mySimPilot="clr-namespace:MySimPilot"
+      xmlns:forms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
+      TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+      TextElement.FontWeight="Regular"
+      TextElement.FontSize="13"
+      TextOptions.TextFormattingMode="Ideal"
+      TextOptions.TextRenderingMode="Auto"
+      Background="{DynamicResource MaterialDesignLightBackground}"
+      FontFamily="{DynamicResource MaterialDesignFont}"
+      Title="MySimPilot" Height="480" Width="800" MinWidth="800" MinHeight="480">
+   <Grid>
+            <TextBlock Width="220" Margin="0,11,0,-11" Height="23" HorizontalAlignment="Left" TextAlignment="Right"
+                       VerticalAlignment="Top">
+                Connection
+            </TextBlock>
+            <materialDesign:Card HorizontalAlignment="Center" VerticalAlignment="Top" Width="320" Margin="64,16,0,-11"
+                                 Height="128" Background="LightGray">
+                <Label Width="300" Height="110" Content="{Binding SUserAircraftMetaInfo}" />
+            </materialDesign:Card>
+            <materialDesign:Card HorizontalAlignment="Center" VerticalAlignment="Top" Width="320" Margin="64,164,0,-11"
+                                 Height="128" Background="LightGray">
+                <Label Width="300" Height="110"
+                       Content="{Binding SUserSimulationInfo}" />
+            </materialDesign:Card>
+            <Button Name="BtnConnect" BorderBrush="Gray" Background="Gray" Content="{Binding SConnectButtonLabel}" Command="{Binding CmdToggleConnect}"
+                    HorizontalAlignment="Left" Margin="29,68,0,0" VerticalAlignment="Top" Width="200" Height="48" />
+
+
+            <Ellipse HorizontalAlignment="Left" Height="18" Margin="224,10,0,0" Stroke="Black" VerticalAlignment="Top"
+                     Width="18">
+                <Ellipse.Style>
+                    <Style TargetType="Ellipse">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding BConnected}" Value="false">
+                                <Setter Property="Fill" Value="#FFFF5030" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding BConnected}" Value="true">
+                                <Setter Property="Fill" Value="#FF50FF30" />
+                            </DataTrigger>
+                            <DataTrigger  Binding="{Binding BSimVarTickOdd}" Value="true">
+                                <!-- Assume bOddTick is true only when bConnected is true-->
+                                <Setter Property="Fill" Value="#FF45E2F4" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Ellipse.Style>
+            </Ellipse>
+
+            
+ 
+            <Label Content="Messages" HorizontalContentAlignment="Stretch" HorizontalAlignment="Left"
+                   Margin="10,180,0,0"
+                   VerticalAlignment="Top" Height="23"
+                   Width="83" />
+            <materialDesign:Card Width="236" Background="LightGray"
+                                 HorizontalAlignment="Left" Margin="10,205,0,10" >
+            <ListBox ItemsSource="{Binding LMessages}" RenderTransformOrigin="0.5,0.5" 
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="{x:Type ListBoxItem}">
+                        <Setter Property="Focusable" Value="False" />
+                    </Style>
+                </ListBox.ItemContainerStyle>
+                <ListBox.ItemTemplate>
+                    <DataTemplate DataType="forms:Message">
+                        <Grid Margin="0,2">
+                            <TextBlock Text="{Binding Body}" Foreground="{Binding TextColor}" TextWrapping="Wrap" />
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            </materialDesign:Card>
+
+        </Grid>
+</Page>

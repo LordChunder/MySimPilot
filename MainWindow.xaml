@@ -3,74 +3,32 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mySimPilot="clr-namespace:MySimPilot"
-        Title="MySimPilot" Height="480" Width="800" MinWidth="800" MinHeight="480">
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignLightBackground}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        Title="MySimPilot" Height="480" Width="800" MinWidth="800" MinHeight="480" >
 
 
     <DockPanel>
-        <Menu  DockPanel.Dock="Top" BorderBrush="Gray" BorderThickness="1.25" >
-            <MenuItem Header="MySimPilot">
+        <Menu DockPanel.Dock="Top" BorderBrush="Gray" BorderThickness="1.25">
+            <MenuItem Header="Account">
                 <MenuItem.Resources>
                     <BooleanToVisibilityConverter x:Key="BoolToVisConverter" />
                 </MenuItem.Resources>
-                <MenuItem  Name="UserMenuItem" Header="{Binding SCurrentUserName}" Visibility="Collapsed"/>
+                <MenuItem Name="UserMenuItem" Header="{Binding SCurrentUserName}" Visibility="Collapsed" />
                 <MenuItem Name="LoginButton" Header="{Binding SLoginStatus}" Click="MnuLogin" />
                 <MenuItem Name="SignUpMenuItem" Header="Sign Up" Click="MnuSignUp" />
             </MenuItem>
+            <MenuItem Header="Home" Click="MnuHome"></MenuItem>
+            <MenuItem Name="MyPilotPageMenuItem" Header="My Pilot" Click="MnuMyPilot"></MenuItem>
+            <MenuItem Name="FlightPageMenuItem" Header="Flight" Click="MnuFlight"></MenuItem>
         </Menu>
-        <Grid>
-            <TextBlock Width="220" Margin="0,11,0,-11" Height="23" HorizontalAlignment="Left" TextAlignment="Right"
-                       VerticalAlignment="Top">
-                Connection
-            </TextBlock>
-            <Label Width="320" Margin="64,16,0,-11" Height="128" HorizontalAlignment="Center"
-                   VerticalAlignment="Top" Content="{Binding SUserAircraftMetaInfo}" />
-            <Label Width="320" Margin="64,144,0,-11" Height="128" HorizontalAlignment="Center"
-                   VerticalAlignment="Top" Content="{Binding SUserSimulationInfo}" />
-            <Button Content="{Binding SConnectButtonLabel}" Command="{Binding CmdToggleConnect}"
-                    HorizontalAlignment="Left" Margin="29,68,0,0" VerticalAlignment="Top" Width="200" Height="48" />
-
-
-            <Ellipse HorizontalAlignment="Left" Height="18" Margin="224,10,0,0" Stroke="Black" VerticalAlignment="Top"
-                     Width="18">
-                <Ellipse.Style>
-                    <Style TargetType="Ellipse">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding BConnected}" Value="false">
-                                <Setter Property="Fill" Value="#FFFF5030" />
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding BConnected}" Value="true">
-                                <Setter Property="Fill" Value="#FF50FF30" />
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding BOddTick}" Value="true">
-                                <!-- Assume bOddTick is true only when bConnected is true-->
-                                <Setter Property="Fill" Value="#FF45E2F4" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Ellipse.Style>
-            </Ellipse>
-
-            <Label Content="Messages" HorizontalContentAlignment="Stretch" HorizontalAlignment="Left"
-                   Margin="10,180,0,0"
-                   VerticalAlignment="Top" Height="23"
-                   Width="83" />
-
-            <ListBox ItemsSource="{Binding LMessages}" RenderTransformOrigin="0.5,0.5" Width="236"
-                     HorizontalAlignment="Left" Margin="10,200,0,10"
-                     ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                <ListBox.ItemContainerStyle>
-                    <Style TargetType="{x:Type ListBoxItem}">
-                        <Setter Property="Focusable" Value="False" />
-                    </Style>
-                </ListBox.ItemContainerStyle>
-                <ListBox.ItemTemplate>
-                    <DataTemplate DataType="mySimPilot:Message">
-                        <Grid Margin="0,2">
-                            <TextBlock Text="{Binding Body}" Foreground="{Binding TextColor}" TextWrapping="Wrap" />
-                        </Grid>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        </Grid>
+        <Frame Name="ParentFrame" NavigationUIVisibility="Hidden"/>
     </DockPanel>
+    
 </Window>

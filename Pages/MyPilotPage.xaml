@@ -1,0 +1,23 @@
+﻿<Page x:Class="MySimPilot.Pages.MyPilotPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+      TextElement.FontWeight="Regular"
+      TextElement.FontSize="13"
+      TextOptions.TextFormattingMode="Ideal"
+      TextOptions.TextRenderingMode="Auto"
+      Background="{DynamicResource MaterialDesignLightBackground}"
+      FontFamily="{DynamicResource MaterialDesignFont}"
+      Title="MySimPilot" Height="480" Width="800" MinWidth="800" MinHeight="480">
+    <StackPanel Orientation="Vertical">
+        <StackPanel Orientation="Horizontal">
+            <materialDesign:Card Width="248" Height="128" Margin="12" Background="LightGray">
+                <StackPanel Orientation="Vertical">
+                    <Label Content="Welcome Back " FontSize="16" />
+                    <Label Content="{Binding Path=DTotalFlightHours}" ContentStringFormat="Total Flight Time: {0} hrs" />
+                </StackPanel>
+            </materialDesign:Card>
+        </StackPanel>
+    </StackPanel>
+</Page>

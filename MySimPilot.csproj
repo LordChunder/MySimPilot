@@ -41,8 +41,24 @@
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Firebase, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>packages\FirebaseDatabase.net.4.0.6\lib\netstandard2.0\Firebase.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Firebase.Auth, Version=4.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>packages\FirebaseAuthentication.net.4.0.0-alpha.2\lib\netstandard2.0\Firebase.Auth.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="LiteDB, Version=4.1.4.0, Culture=neutral, PublicKeyToken=4ee40123013c9f27">
+      <HintPath>packages\LiteDB.4.1.4\lib\net40\LiteDB.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MaterialDesignColors, Version=2.0.2.2657, Culture=neutral, PublicKeyToken=df2a72020bd7962a">
+      <HintPath>packages\MaterialDesignColors.2.0.2-ci2657\lib\net452\MaterialDesignColors.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MaterialDesignThemes.Wpf, Version=4.2.0.2657, Culture=neutral, PublicKeyToken=df2a72020bd7962a">
+      <HintPath>packages\MaterialDesignThemes.4.2.0-ci2657\lib\net452\MaterialDesignThemes.Wpf.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51">
@@ -102,6 +118,10 @@
       <HintPath>packages\System.Numerics.Vectors.4.4.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Reactive, Version=4.0.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263">
+      <HintPath>packages\System.Reactive.4.0.0\lib\net46\System.Reactive.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <HintPath>packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
       <Private>True</Private>
@@ -110,6 +130,8 @@
       <HintPath>packages\System.Threading.Tasks.Extensions.4.5.2\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Windows" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -127,8 +149,22 @@
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Compile Include="Data\LogBook.cs" />
+    <Compile Include="Data\Message.cs" />
+    <Compile Include="Data\MyPilotData.cs" />
     <Compile Include="Handlers\DataHandler.cs" />
     <Compile Include="Handlers\FirebaseHandler.cs" />
+    <Compile Include="Handlers\FlightHandler.cs" />
+    <Compile Include="Handlers\PilotHandler.cs" />
+    <Compile Include="Pages\FlightPage.xaml.cs">
+      <DependentUpon>FlightPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\HomePage.xaml.cs">
+      <DependentUpon>HomePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\MyPilotPage.xaml.cs">
+      <DependentUpon>MyPilotPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SimConnect\Enums.cs" />
     <Compile Include="SimConnect\Structs.cs" />
     <Compile Include="ViewModel\BaseCommand.cs" />
@@ -147,11 +183,13 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DataHandler.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Pages\FlightPage.xaml" />
+    <Page Include="Pages\HomePage.xaml" />
+    <Page Include="Pages\MyPilotPage.xaml" />
     <Page Include="ViewModel\LoginWindow.xaml" />
     <Page Include="ViewModel\SignUpWindow.xaml" />
   </ItemGroup>
@@ -209,5 +247,7 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105.The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('packages\Grpc.Core.2.36.4\build\net45\Grpc.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Grpc.Core.2.36.4\build\net45\Grpc.Core.targets'))" />
+    <Error Condition="!Exists('packages\MaterialDesignThemes.4.2.0-ci2657\build\MaterialDesignThemes.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\MaterialDesignThemes.4.2.0-ci2657\build\MaterialDesignThemes.targets'))" />
   </Target>
+  <Import Project="packages\MaterialDesignThemes.4.2.0-ci2657\build\MaterialDesignThemes.targets" Condition="Exists('packages\MaterialDesignThemes.4.2.0-ci2657\build\MaterialDesignThemes.targets')" />
 </Project>

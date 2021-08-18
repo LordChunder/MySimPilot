@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\Users\Alex\Desktop\SimvarWatcher\App.xaml
-3362641851
+61166200440
 51586484917
-201914668184
-1381523924240
-MainWindow.xaml;ViewModel\LoginWindow.xaml;ViewModel\SignUpWindow.xaml;
+271163716691
+1451636019339
+MainWindow.xaml;Pages\FlightPage.xaml;Pages\HomePage.xaml;Pages\MyPilotPage.xaml;ViewModel\LoginWindow.xaml;ViewModel\SignUpWindow.xaml;
 
 False
 

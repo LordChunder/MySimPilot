@@ -5,41 +5,13 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Threading;
 using Microsoft.FlightSimulator.SimConnect;
+using MySimPilot.Data;
+using MySimPilot.Handlers;
 using MySimPilot.SimConnect;
 using MySimPilot.ViewModel;
 
-
 namespace MySimPilot
 {
-    public class Message
-    {
-        public Message(string body, DateTime time, MessageType type)
-        {
-            Body = $"({time.ToShortTimeString()}) {body}";
-            Type = type;
-
-            switch (Type)
-            {
-                case MessageType.Error:
-                {
-                    TextColor = "Red";
-                    break;
-                }
-                case MessageType.Alert:
-                {
-                    TextColor = "Orange";
-                    break;
-                    
-                }
-            }
-        }
-
-        public string Body { get; set; }
-        private MessageType Type { get; set; }
-
-        public string TextColor { get; set; }
-    }
-
     public class SimvarsViewModel : ObservableObject, IBaseSimConnectWrapper
     {
         // User-defined win32 event
@@ -51,79 +23,52 @@ namespace MySimPilot
         private IntPtr _hWnd = new IntPtr(0);
         private Microsoft.FlightSimulator.SimConnect.SimConnect _simConnection;
         private readonly DispatcherTimer _pullDataTimer = new DispatcherTimer();
+        private static SimvarsViewModel _instance;
 
-        public SimvarsViewModel()
+        public static SimvarsViewModel GetInstance()
+        {
+            return _instance ?? (_instance = new SimvarsViewModel());
+        }
+
+        private SimvarsViewModel()
         {
             _mapper = new SimVarMapper();
             _pullDataTimer.Interval = new TimeSpan(0, 0, 0, 1, 0);
             _pullDataTimer.Tick += OnTickPullData;
 
-            CmdToggleConnect = new BaseCommand((p) => { Connect(); });
+            CmdToggleConnect = new BaseCommand(p => { Connect(); });
 
-            SConnectButtonLabel = "Connect";
-            BConnected = false;
+            DataHandler.GetInstance().BConnected = false;
 
-            LMessages = new ObservableCollection<Message>();
+         
         }
 
 
         #region UIMappings
+        
+
+    
+        
 
         [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
         public string SConnectButtonLabel
         {
             get => _mSConnectedButtonLabel;
-            private set => SetProperty(ref _mSConnectedButtonLabel, value);
+            internal set => SetProperty(ref _mSConnectedButtonLabel, value);
         }
-
-        [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
-        public string SUserAircraftMetaInfo
-        {
-            get => _mSUserAircraftMetaInfo;
-            private set => SetProperty(ref _mSUserAircraftMetaInfo, value);
-        }
-
-        [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
-        public string SUserSimulationInfo
-        {
-            get => _mSUserSimulationInfo;
-            private set => SetProperty(ref _mSUserSimulationInfo, value);
-        }
-
-        [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
-        public bool BOddTick
-        {
-            get => _mBOddTick;
-            private set => SetProperty(ref _mBOddTick, value);
-        }
-
-        [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
-        public bool BConnected
-        {
-            get => _mBConnected;
-            private set => SetProperty(ref _mBConnected, value);
-        }
-        [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
-        // ReSharper disable once CollectionNeverQueried.Global
-        public ObservableCollection<Message> LMessages { get; set; }
-
-        private bool _mBConnected;
-        private string _mSConnectedButtonLabel = "Connect";
-        private bool _mBOddTick;
-        private string _mSUserAircraftMetaInfo = "Aircraft:\nSelect an Aircraft";
-        private string _mSUserSimulationInfo = "Simulation Settings:\nConnect to Flight Sim";
-
 
         [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
         // ReSharper disable once UnusedAutoPropertyAccessor.Global
         public BaseCommand CmdToggleConnect { get; }
+
+        private string _mSConnectedButtonLabel = "Connect";
 
         #endregion
 
         private void Connect()
         {
             Console.WriteLine(@"Trying to connect to sim");
-            if (BConnected) return;
+            if (DataHandler.GetInstance().BConnected) return;
             try
             {
                 // The constructor is similar to SimConnect_Open in the native API
@@ -132,9 +77,8 @@ namespace MySimPilot
                     _hWnd,
                     WmUserSimconnect,
                     null,
-                    0);
-
-                BConnected = true;
+                    1);
+                
 
                 _simConnection.OnRecvOpen += OnRecvOpen;
                 _simConnection.OnRecvQuit += OnRecvQuit;
@@ -196,16 +140,16 @@ namespace MySimPilot
             catch (COMException ex)
             {
                 Console.WriteLine(@"Connection to KH failed: " + ex.Message);
-                BConnected = false;
-                LMessages.Add(new Message("Failed to connect to simulator",
-                   DateTime.Now, MessageType.Error)
+                DataHandler.GetInstance().BConnected = false;
+                DataHandler.GetInstance().LMessages.Add(new Message("Failed to connect to simulator",
+                    DateTime.Now, MessageType.Error)
                 );
             }
         }
 
         private void OnTickPullData(object sender, EventArgs e)
         {
-            BOddTick = !BOddTick;
+            DataHandler.GetInstance().BSimVarTickOdd = !DataHandler.GetInstance().BSimVarTickOdd;
             try
             {
                 _simConnection?.RequestDataOnSimObjectType(
@@ -229,13 +173,13 @@ namespace MySimPilot
             catch (COMException ex)
             {
                 Console.WriteLine(@"Connection to KH failed: " + ex.Message);
-                BConnected = false;
+                DataHandler.GetInstance().BConnected = false;
             }
 
-            var dataHandler = Handlers.DataHandler.GetInstance();
-            SUserAircraftMetaInfo = dataHandler.PlaneMetadata != null
+            var dataHandler = DataHandler.GetInstance();
+            DataHandler.GetInstance().SUserAircraftMetaInfo = dataHandler.PlaneMetadata != null
                 ? $"Aircraft: {dataHandler.PlaneMetadata.Value.TITLE}\n" +
-                  $"Type: {dataHandler.PlaneMetadata.Value.ATC_MODEL.Split(' ')[1].Split('.')[0]}\n" +
+                  $"Type: {dataHandler.PlaneMetadata.Value.ATC_MODEL}\n" +
                   $"Callsign {dataHandler.PlaneMetadata.Value.ATC_ID}"
                 : "Aircraft:\nSelect an Aircraft";
 
@@ -243,7 +187,7 @@ namespace MySimPilot
                                (dataHandler.SimVariables.Value.REALISM_CRASH_DETECTION != 0);
             var unlimitedFuel =
                 dataHandler.SimVariables != null && (dataHandler.SimVariables.Value.UNLIMITED_FUEL != 0);
-            SUserSimulationInfo = dataHandler.SimVariables != null
+            DataHandler.GetInstance().SUserSimulationInfo = dataHandler.SimVariables != null
                 ? "Simulation Settings:\n" +
                   $"Realsim: Crash Detection ({crashDection})\n" +
                   $"Unlimited Fuel ({unlimitedFuel})"
@@ -274,7 +218,7 @@ namespace MySimPilot
             if (val is null)
                 return;
 
-            var dataHandler = Handlers.DataHandler.GetInstance();
+            var dataHandler = DataHandler.GetInstance();
 
             switch ((Definition)data.dwDefineID)
             {
@@ -297,7 +241,7 @@ namespace MySimPilot
         {
             var eException = (SIMCONNECT_EXCEPTION)data.dwException;
             Console.WriteLine(@"SimConnect_OnRecvException: " + eException);
-            LMessages.Add(new Message(eException.ToString(),
+            DataHandler.GetInstance().LMessages.Add(new Message(eException.ToString(),
                 DateTime.Now, MessageType.Error)
             );
         }
@@ -306,9 +250,9 @@ namespace MySimPilot
         {
             Console.WriteLine(@"Disconnected from sim");
             SConnectButtonLabel = "Re-connect";
-            BConnected = false;
+            DataHandler.GetInstance().BConnected = false;
             _pullDataTimer.Stop();
-            LMessages.Add(new Message("Disconnected from sim",
+            DataHandler.GetInstance().LMessages.Add(new Message("Disconnected from sim",
                 DateTime.Now, MessageType.Alert)
             );
         }
@@ -316,14 +260,14 @@ namespace MySimPilot
         private void OnRecvOpen(Microsoft.FlightSimulator.SimConnect.SimConnect sender, SIMCONNECT_RECV_OPEN data)
         {
             Console.WriteLine(@"Connected to sim");
-            LMessages.Add(new Message("Connected to sim",
+            DataHandler.GetInstance().LMessages.Add(new Message("Connected to sim",
                 DateTime.Now, MessageType.Alert)
             );
             _pullDataTimer.Start();
 
             SConnectButtonLabel = "Connected";
-            BConnected = true;
-            BOddTick = false;
+            DataHandler.GetInstance().BConnected = true;
+            DataHandler.GetInstance().BSimVarTickOdd = false;
         }
 
         #endregion

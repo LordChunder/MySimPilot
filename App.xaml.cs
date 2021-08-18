@@ -13,5 +13,6 @@ namespace MySimPilot
     /// </summary>
     public partial class App : Application
     {
+        
     }
 }

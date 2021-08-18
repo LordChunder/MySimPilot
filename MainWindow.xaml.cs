@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Interop;
 using MySimPilot.Handlers;
+using MySimPilot.Pages;
 using MySimPilot.ViewModel;
 
 namespace MySimPilot
@@ -14,17 +15,16 @@ namespace MySimPilot
         void Disconnect();
     }
 
-    public partial class MainWindow
+    public partial class MainWindow : Window
     {
         public MainWindow()
         {
-            DataContext = new SimvarsViewModel();
-
-   
+            DataContext =SimvarsViewModel.GetInstance();
             InitializeComponent();
             LoginButton.DataContext = FirebaseHandler.GetInstance();
             UserMenuItem.DataContext = FirebaseHandler.GetInstance();
             FirebaseHandler.GetInstance().MainWindow = this;
+            ParentFrame.Content = new HomePage();
         }
 
         private HwndSource GetHWinSource()
@@ -71,14 +71,37 @@ namespace MySimPilot
 
             var modalWindow = new LoginWindow();
             modalWindow.ShowDialog();
-            
-            
         }
 
         private void MnuSignUp(object sender, RoutedEventArgs e)
         {
             var modalWindow = new SignUpWindow();
             modalWindow.ShowDialog();
+        }
+
+
+        private void MnuHome(object sender, RoutedEventArgs e)
+        {
+            if (!(ParentFrame.Content.GetType() == typeof(HomePage)))
+            {
+                ParentFrame.Content = new HomePage();
+            }
+        }
+
+        private void MnuMyPilot(object sender, RoutedEventArgs e)
+        {
+            if (!(ParentFrame.Content.GetType() == typeof(MyPilotPage)))
+            {
+                ParentFrame.Content = new MyPilotPage();
+            }
+        }
+
+        private void MnuFlight(object sender, RoutedEventArgs e)
+        {
+            if (!(ParentFrame.Content.GetType() == typeof(FlightPage)))
+            {
+                ParentFrame.Content = new FlightPage();
+            }
         }
     }
 }

@@ -30,7 +30,6 @@ namespace MySimPilot.SimConnect
     {
         public double UNLIMITED_FUEL;
         public double REALISM_CRASH_DETECTION;
-
         public double SIMULATION_RATE;
         public double REALISM;
     }

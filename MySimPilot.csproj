@@ -127,6 +127,18 @@
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Compile Include="Handlers\DataHandler.cs" />
+    <Compile Include="Handlers\FirebaseHandler.cs" />
+    <Compile Include="SimConnect\Enums.cs" />
+    <Compile Include="SimConnect\Structs.cs" />
+    <Compile Include="ViewModel\BaseCommand.cs" />
+    <Compile Include="ViewModel\LoginWindow.xaml.cs">
+      <DependentUpon>LoginWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\Observable Object.cs" />
+    <Compile Include="ViewModel\SignUpWindow.xaml.cs">
+      <DependentUpon>SignUpWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -135,17 +147,21 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="FirebaseHandler.cs" />
+    <Compile Include="DataHandler.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="ViewModel\LoginWindow.xaml" />
+    <Page Include="ViewModel\SignUpWindow.xaml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SimConnect\Requests.cs" />
+    <Compile Include="SimConnect\SimVar.cs" />
+    <Compile Include="SimConnect\SimVarCollection.cs" />
+    <Compile Include="SimConnect\SimVarMapper.cs" />
+    <Compile Include="SimConnect\SimVarRequest.cs" />
     <Compile Include="SimvarsViewModel.cs" />
-    <Compile Include="textsimvars.cs" />
-    <Compile Include="units.cs" />
-    <Compile Include="ViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -172,14 +188,19 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="simvariables.json" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>xcopy "$(ProjectDir)SimConnect.cfg" "." /Y
-xcopy "$(ProjectDir)SimConnect.dll" "." /Y
+    <PostBuildEvent>
+      xcopy "$(ProjectDir)SimConnect.cfg" "." /Y
+      xcopy "$(ProjectDir)SimConnect.dll" "." /Y
+      xcopy "$(ProjectDir)simvariables.json" "." /Y
 </PostBuildEvent>
   </PropertyGroup>
   <Import Project="packages\Grpc.Core.2.36.4\build\net45\Grpc.Core.targets" Condition="Exists('packages\Grpc.Core.2.36.4\build\net45\Grpc.Core.targets')" />

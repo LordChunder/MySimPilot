@@ -9,6 +9,9 @@
 	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CUsers_005CAlex_005CDownloads_005Cunitypackage_005Fextractor_005F64_005CAssets_005CFirebase_005CPlugins_005Cx86_005F64_005CFirebaseCppAuth_002Edll/@EntryIndexedValue">True</s:Boolean>
 	<s:String x:Key="/Default/CodeInspection/PencilsConfiguration/ActualSeverity/@EntryValue">INFO</s:String>
 	<s:String x:Key="/Default/CodeInspection/PencilsConfiguration/FiltersState/=SpellingFilter/@EntryIndexedValue">Off</s:String>
+	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;&#xD;
+  &lt;Assembly Path="C:\Users\Alex\Desktop\SimvarWatcher\packages\FirebaseAuthentication.net.4.0.0-alpha.2\lib\netstandard2.0\Firebase.Auth.dll" /&gt;&#xD;
+&lt;/AssemblyExplorer&gt;</s:String>
 	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=MySimPilot_002FProperties_002FResources/@EntryIndexedValue">True</s:Boolean>
 	
 	<s:Boolean x:Key="/Default/ResxEditorPersonal/Initialized/@EntryValue">True</s:Boolean></wpf:ResourceDictionary>

@@ -147,3 +147,7 @@ C:\Users\Alex\Desktop\SimvarWatcher\obj\x64\Debug\MySimPilot_Content.g.cs
 C:\Users\Alex\Desktop\SimvarWatcher\bin\x64\Debug\Firebase.Auth.dll
 C:\Users\Alex\Desktop\SimvarWatcher\bin\x64\Debug\Firebase.Auth.xml
 C:\Users\Alex\Desktop\SimvarWatcher\obj\x64\Debug\MySimPilot_MarkupCompile.lref
+C:\Users\Alex\Desktop\SimvarWatcher\obj\x64\Debug\ViewModel\LoginWindow.g.cs
+C:\Users\Alex\Desktop\SimvarWatcher\obj\x64\Debug\ViewModel\LoginWindow.baml
+C:\Users\Alex\Desktop\SimvarWatcher\obj\x64\Debug\ViewModel\SignUpWindow.g.cs
+C:\Users\Alex\Desktop\SimvarWatcher\obj\x64\Debug\ViewModel\SignUpWindow.baml

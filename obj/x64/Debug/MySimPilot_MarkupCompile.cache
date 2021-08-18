@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\Users\Alex\Desktop\SimvarWatcher\App.xaml
-11151548125
-4-1163939059
-101588784903
+3362641851
+51586484917
+201914668184
 1381523924240
-MainWindow.xaml;
+MainWindow.xaml;ViewModel\LoginWindow.xaml;ViewModel\SignUpWindow.xaml;
 
 False
 

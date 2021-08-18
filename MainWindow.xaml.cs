@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Linq;
 using System.Windows;
-using System.Windows.Input;
 using System.Windows.Interop;
+using MySimPilot.Handlers;
+using MySimPilot.ViewModel;
 
 namespace MySimPilot
 {
@@ -13,20 +13,23 @@ namespace MySimPilot
         void SetWindowHandle(IntPtr hWnd);
         void Disconnect();
     }
+
     public partial class MainWindow
     {
         public MainWindow()
         {
             DataContext = new SimvarsViewModel();
-            var firebaseHandler = FirebaseHandler.Instance;
-            
+
+   
             InitializeComponent();
+            LoginButton.DataContext = FirebaseHandler.GetInstance();
+            UserMenuItem.DataContext = FirebaseHandler.GetInstance();
+            FirebaseHandler.GetInstance().MainWindow = this;
         }
 
         private HwndSource GetHWinSource()
         {
             return PresentationSource.FromVisual(this) as HwndSource;
-            
         }
 
         protected override void OnSourceInitialized(EventArgs e)
@@ -57,14 +60,25 @@ namespace MySimPilot
             return IntPtr.Zero;
         }
 
-        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
+        private void MnuLogin(object sender, RoutedEventArgs e)
         {
-            var sText = e.Text;
-            foreach (var _ in sText.Where(c => !(('0' <= c && c <= '9') || c == '+' || c == '-' || c == ',')))
+            if (FirebaseHandler.GetInstance().BIsLoggedIn)
             {
-                e.Handled = true;
-                break;
+                FirebaseHandler.GetInstance().SignOut();
+                MessageBox.Show("Logged Out");
+                return;
             }
+
+            var modalWindow = new LoginWindow();
+            modalWindow.ShowDialog();
+            
+            
+        }
+
+        private void MnuSignUp(object sender, RoutedEventArgs e)
+        {
+            var modalWindow = new SignUpWindow();
+            modalWindow.ShowDialog();
         }
     }
 }

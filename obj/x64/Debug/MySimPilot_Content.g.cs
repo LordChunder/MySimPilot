@@ -8,6 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("simvariables.json")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("packages/grpc.core.2.36.4/runtimes/win-x86/native/grpc_csharp_ext.x86.dll")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("packages/grpc.core.2.36.4/runtimes/win-x64/native/grpc_csharp_ext.x64.dll")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("packages/grpc.core.2.36.4/runtimes/linux-x64/native/libgrpc_csharp_ext.x64.so")]

@@ -1,24 +1,20 @@
 ﻿<Window x:Class="MySimPilot.ViewModel.SignUpWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:local="clr-namespace:MySimPilot.ViewModel"
-        mc:Ignorable="d"
         Title="Sign Up" SizeToContent="WidthAndHeight" ResizeMode="NoResize" >
     <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Label Content="Sign Up for MySimPilot with your email" HorizontalAlignment="Center"/>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
             <Label Content="Email: " />
-            <TextBox Name="txtEmailInput" Width="248"></TextBox>
+            <TextBox Name="TxtEmailInput" Width="248"></TextBox>
         </StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
             <Label Content="Password: " />
-            <PasswordBox  Name="txtPasswordInput" Width="248" ></PasswordBox>
+            <PasswordBox  Name="TxtPasswordInput" Width="248" ></PasswordBox>
         </StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
             <Label Content="Confirm Password: " />
-            <PasswordBox  Name="txtPasswordConfirm" Width="248" ></PasswordBox>
+            <PasswordBox  Name="TxtPasswordConfirm" Width="248" ></PasswordBox>
         </StackPanel>
         <Button Click="btnSignUp_Click" Content="Sign Up" /> 
     </StackPanel>

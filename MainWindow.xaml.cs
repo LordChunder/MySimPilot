@@ -15,7 +15,7 @@ namespace MySimPilot
         void Disconnect();
     }
 
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
         public MainWindow()
         {
@@ -25,6 +25,8 @@ namespace MySimPilot
             UserMenuItem.DataContext = FirebaseHandler.GetInstance();
             FirebaseHandler.GetInstance().MainWindow = this;
             ParentFrame.Content = new HomePage();
+            
+          
         }
 
         private HwndSource GetHWinSource()

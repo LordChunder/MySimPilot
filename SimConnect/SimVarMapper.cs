@@ -42,6 +42,8 @@ namespace MySimPilot.SimConnect
                             NameUnitTuple = (sdkName, value.Unit),
                             Request = (Request) Enum.Parse(typeof(Request), member)
                         });
+                    
+   
                 }
                 else
                 {

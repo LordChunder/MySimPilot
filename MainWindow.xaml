@@ -1,9 +1,6 @@
 ﻿<Window x:Class="MySimPilot.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mySimPilot="clr-namespace:MySimPilot"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
         TextElement.FontSize="13"
@@ -11,15 +8,12 @@
         TextOptions.TextRenderingMode="Auto"
         Background="{DynamicResource MaterialDesignLightBackground}"
         FontFamily="{DynamicResource MaterialDesignFont}"
-        Title="MySimPilot" Height="480" Width="800" MinWidth="800" MinHeight="480" >
+        Title="MySimPilot" Height="480" Width="800" MinWidth="800" MinHeight="480" ResizeMode="CanMinimize" SizeToContent="WidthAndHeight">
 
 
     <DockPanel>
         <Menu DockPanel.Dock="Top" BorderBrush="Gray" BorderThickness="1.25">
             <MenuItem Header="Account">
-                <MenuItem.Resources>
-                    <BooleanToVisibilityConverter x:Key="BoolToVisConverter" />
-                </MenuItem.Resources>
                 <MenuItem Name="UserMenuItem" Header="{Binding SCurrentUserName}" Visibility="Collapsed" />
                 <MenuItem Name="LoginButton" Header="{Binding SLoginStatus}" Click="MnuLogin" />
                 <MenuItem Name="SignUpMenuItem" Header="Sign Up" Click="MnuSignUp" />

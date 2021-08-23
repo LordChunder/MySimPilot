@@ -1,9 +1,8 @@
-﻿using System.Windows.Controls;
-using MySimPilot.Handlers;
+﻿using MySimPilot.Handlers;
 
 namespace MySimPilot.Pages
 {
-    public partial class MyPilotPage : Page
+    public partial class MyPilotPage
     {
         public MyPilotPage()
         {

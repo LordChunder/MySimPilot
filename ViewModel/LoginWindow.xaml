@@ -1,20 +1,16 @@
 ﻿<Window x:Class="MySimPilot.ViewModel.LoginWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:local="clr-namespace:MySimPilot.ViewModel"
-        mc:Ignorable="d"
         Title="Login" SizeToContent="WidthAndHeight" ResizeMode="NoResize" >
     <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Label Content="Log in to MySimPilot with your email " HorizontalAlignment="Center"/>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
         <Label Content="Email: " />
-        <TextBox Name="txtEmailInput" Width="248"></TextBox>
+        <TextBox Name="TxtEmailInput" Width="248"></TextBox>
         </StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
             <Label Content="Password: " />
-            <PasswordBox  Name="txtPasswordInput" Width="248" ></PasswordBox>
+            <PasswordBox  Name="TxtPasswordInput" Width="248" ></PasswordBox>
         </StackPanel>
             <Button Click="btnLogin_Click" Content="Login" /> 
         </StackPanel>

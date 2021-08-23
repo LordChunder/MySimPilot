@@ -1,6 +1,4 @@
-﻿using System;
-using System.Globalization;
-using MySimPilot.Data;
+﻿using MySimPilot.Data;
 using MySimPilot.ViewModel;
 
 namespace MySimPilot.Handlers

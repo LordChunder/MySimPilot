@@ -169,3 +169,17 @@ C:\Users\Alex\Desktop\SimvarWatcher\bin\x64\Debug\LiteDB.xml
 C:\Users\Alex\Desktop\SimvarWatcher\bin\x64\Debug\System.Reactive.xml
 C:\Users\Alex\Desktop\SimvarWatcher\obj\x64\Debug\Pages\FlightPage.g.cs
 C:\Users\Alex\Desktop\SimvarWatcher\obj\x64\Debug\Pages\FlightPage.baml
+C:\Users\Alex\Desktop\SimvarWatcher\bin\x64\Debug\EntityFramework.dll
+C:\Users\Alex\Desktop\SimvarWatcher\bin\x64\Debug\EntityFramework.SqlServer.dll
+C:\Users\Alex\Desktop\SimvarWatcher\bin\x64\Debug\GMap.NET.Core.dll
+C:\Users\Alex\Desktop\SimvarWatcher\bin\x64\Debug\GMap.NET.WindowsPresentation.dll
+C:\Users\Alex\Desktop\SimvarWatcher\bin\x64\Debug\System.Data.SqlClient.dll
+C:\Users\Alex\Desktop\SimvarWatcher\bin\x64\Debug\System.Data.SQLite.dll
+C:\Users\Alex\Desktop\SimvarWatcher\bin\x64\Debug\System.Data.SQLite.EF6.dll
+C:\Users\Alex\Desktop\SimvarWatcher\bin\x64\Debug\System.Data.SQLite.Linq.dll
+C:\Users\Alex\Desktop\SimvarWatcher\bin\x64\Debug\System.Security.Principal.Windows.dll
+C:\Users\Alex\Desktop\SimvarWatcher\bin\x64\Debug\EntityFramework.xml
+C:\Users\Alex\Desktop\SimvarWatcher\bin\x64\Debug\EntityFramework.SqlServer.xml
+C:\Users\Alex\Desktop\SimvarWatcher\bin\x64\Debug\System.Data.SqlClient.xml
+C:\Users\Alex\Desktop\SimvarWatcher\bin\x64\Debug\System.Data.SQLite.xml
+C:\Users\Alex\Desktop\SimvarWatcher\bin\x64\Debug\System.Security.Principal.Windows.xml

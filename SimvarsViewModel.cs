@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Threading;
+using GMap.NET;
 using Microsoft.FlightSimulator.SimConnect;
 using MySimPilot.Data;
 using MySimPilot.Handlers;
@@ -21,7 +21,7 @@ namespace MySimPilot
         private readonly SimVarMapper _mapper;
 
         private IntPtr _hWnd = new IntPtr(0);
-        private Microsoft.FlightSimulator.SimConnect.SimConnect _simConnection;
+        public Microsoft.FlightSimulator.SimConnect.SimConnect SimConnection;
         private readonly DispatcherTimer _pullDataTimer = new DispatcherTimer();
         private static SimvarsViewModel _instance;
 
@@ -39,16 +39,9 @@ namespace MySimPilot
             CmdToggleConnect = new BaseCommand(p => { Connect(); });
 
             DataHandler.GetInstance().BConnected = false;
-
-         
         }
 
-
         #region UIMappings
-        
-
-    
-        
 
         [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
         public string SConnectButtonLabel
@@ -72,33 +65,33 @@ namespace MySimPilot
             try
             {
                 // The constructor is similar to SimConnect_Open in the native API
-                _simConnection = new Microsoft.FlightSimulator.SimConnect.SimConnect(
+                SimConnection = new Microsoft.FlightSimulator.SimConnect.SimConnect(
                     $"Simconnect{Guid.NewGuid()}",
                     _hWnd,
                     WmUserSimconnect,
                     null,
-                    1);
-                
+                    0);
 
-                _simConnection.OnRecvOpen += OnRecvOpen;
-                _simConnection.OnRecvQuit += OnRecvQuit;
-                _simConnection.OnRecvException += OnRecvException;
-                _simConnection.OnRecvSimobjectDataBytype += OnRecvSimobjectDataByType;
-                _simConnection.OnRecvEvent += OnRecvEvent;
 
-                // Setup crash
-                _simConnection.SubscribeToSystemEvent(
-                    Event.PlaneCrashed,
+                SimConnection.OnRecvOpen += OnRecvOpen;
+                SimConnection.OnRecvQuit += OnRecvQuit;
+                SimConnection.OnRecvException += OnRecvException;
+                SimConnection.OnRecvSimobjectDataBytype += OnRecvSimobjectDataByType;
+                SimConnection.OnRecvEvent += OnRecvEvent;
+
+                // Setup Evens
+                SimConnection.SubscribeToSystemEvent(
+                    ReceiveEvents.PlaneCrashed,
                     "Crashed");
-                _simConnection.SubscribeToSystemEvent(
-                    Event.PositionChanged,
+                SimConnection.SubscribeToSystemEvent(
+                    ReceiveEvents.PositionChanged,
                     "PositionChanged");
 
-
+                //setup sim Vars
                 var definition = Definition.PlaneMetadatas;
                 foreach (var value in _mapper.GetRequestsForStruct<PlaneMetadatas>())
                 {
-                    _simConnection.AddToDataDefinition(
+                    SimConnection.AddToDataDefinition(
                         definition,
                         value.NameUnitTuple.Name,
                         value.NameUnitTuple.Unit,
@@ -107,12 +100,12 @@ namespace MySimPilot
                         Microsoft.FlightSimulator.SimConnect.SimConnect.SIMCONNECT_UNUSED);
                 }
 
-                _simConnection.RegisterDataDefineStruct<PlaneMetadatas>(definition);
+                SimConnection.RegisterDataDefineStruct<PlaneMetadatas>(definition);
 
                 definition = Definition.PlaneVariables;
                 foreach (var value in _mapper.GetRequestsForStruct<PlaneVariables>())
                 {
-                    _simConnection.AddToDataDefinition(
+                    SimConnection.AddToDataDefinition(
                         definition,
                         value.NameUnitTuple.Name,
                         value.NameUnitTuple.Unit,
@@ -121,12 +114,12 @@ namespace MySimPilot
                         Microsoft.FlightSimulator.SimConnect.SimConnect.SIMCONNECT_UNUSED);
                 }
 
-                _simConnection.RegisterDataDefineStruct<PlaneVariables>(definition);
+                SimConnection.RegisterDataDefineStruct<PlaneVariables>(definition);
 
                 definition = Definition.SimulationVariables;
                 foreach (var value in _mapper.GetRequestsForStruct<SimulationVariables>())
                 {
-                    _simConnection.AddToDataDefinition(
+                    SimConnection.AddToDataDefinition(
                         definition,
                         value.NameUnitTuple.Name,
                         value.NameUnitTuple.Unit,
@@ -135,7 +128,36 @@ namespace MySimPilot
                         Microsoft.FlightSimulator.SimConnect.SimConnect.SIMCONNECT_UNUSED);
                 }
 
-                _simConnection.RegisterDataDefineStruct<SimulationVariables>(definition);
+                SimConnection.RegisterDataDefineStruct<SimulationVariables>(definition);
+
+                definition = Definition.PlaneGaugeStates;
+                foreach (var value in _mapper.GetRequestsForStruct<PlaneGaugeStates>())
+                {
+                    SimConnection.AddToDataDefinition(
+                        definition,
+                        value.NameUnitTuple.Name,
+                        value.NameUnitTuple.Unit,
+                        value.DataType,
+                        0.0f,
+                        Microsoft.FlightSimulator.SimConnect.SimConnect.SIMCONNECT_UNUSED);
+                }
+
+                SimConnection.RegisterDataDefineStruct<PlaneGaugeStates>(definition);
+
+                definition = Definition.PlaneLandingData;
+                foreach (var value in _mapper.GetRequestsForStruct<PlaneLandingData>())
+                {
+                    Console.WriteLine(value.NameUnitTuple.Name);
+                    SimConnection.AddToDataDefinition(
+                        definition,
+                        value.NameUnitTuple.Name,
+                        value.NameUnitTuple.Unit,
+                        value.DataType,
+                        0.0f,
+                        Microsoft.FlightSimulator.SimConnect.SimConnect.SIMCONNECT_UNUSED);
+                }
+
+                SimConnection.RegisterDataDefineStruct<PlaneLandingData>(definition);
             }
             catch (COMException ex)
             {
@@ -147,25 +169,35 @@ namespace MySimPilot
             }
         }
 
+
         private void OnTickPullData(object sender, EventArgs e)
         {
             DataHandler.GetInstance().BSimVarTickOdd = !DataHandler.GetInstance().BSimVarTickOdd;
             try
             {
-                _simConnection?.RequestDataOnSimObjectType(
-                    Request.PLANE_ALTITUDE,
+                SimConnection?.RequestDataOnSimObjectType(
+                    null,
+                    Definition.PlaneGaugeStates,
+                    0,
+                    SIMCONNECT_SIMOBJECT_TYPE.USER);
+                SimConnection?.RequestDataOnSimObjectType(
+                    null,
                     Definition.PlaneVariables,
                     0,
                     SIMCONNECT_SIMOBJECT_TYPE.USER);
 
-                _simConnection?.RequestDataOnSimObjectType(
-                    Request.REALISM_CRASH_DETECTION,
+                SimConnection?.RequestDataOnSimObjectType(
+                    null,
                     Definition.SimulationVariables,
                     0,
                     SIMCONNECT_SIMOBJECT_TYPE.USER);
-
-                _simConnection?.RequestDataOnSimObjectType(
-                    Request.TITLE,
+                SimConnection?.RequestDataOnSimObjectType(
+                    null,
+                    Definition.PlaneLandingData,
+                    0,
+                    SIMCONNECT_SIMOBJECT_TYPE.USER);
+                SimConnection?.RequestDataOnSimObjectType(
+                    null,
                     Definition.PlaneMetadatas,
                     0,
                     SIMCONNECT_SIMOBJECT_TYPE.USER);
@@ -173,13 +205,17 @@ namespace MySimPilot
             catch (COMException ex)
             {
                 Console.WriteLine(@"Connection to KH failed: " + ex.Message);
+                DataHandler.GetInstance().LMessages.Add(new Message("Failed to connect to simulator",
+                    DateTime.Now, MessageType.Error));
                 DataHandler.GetInstance().BConnected = false;
             }
 
+
+            //TODO Tidy up
             var dataHandler = DataHandler.GetInstance();
             DataHandler.GetInstance().SUserAircraftMetaInfo = dataHandler.PlaneMetadata != null
                 ? $"Aircraft: {dataHandler.PlaneMetadata.Value.TITLE}\n" +
-                  $"Type: {dataHandler.PlaneMetadata.Value.ATC_MODEL}\n" +
+                  $"Type: {dataHandler.PlaneMetadata.Value.ATC_MODEL.Split('.')[dataHandler.PlaneMetadata.Value.ATC_MODEL.Split('.').Length-3]}\n" +
                   $"Callsign {dataHandler.PlaneMetadata.Value.ATC_ID}"
                 : "Aircraft:\nSelect an Aircraft";
 
@@ -192,20 +228,37 @@ namespace MySimPilot
                   $"Realsim: Crash Detection ({crashDection})\n" +
                   $"Unlimited Fuel ({unlimitedFuel})"
                 : "Simulation Settings:\nConnect to Flight Sim";
+
+
+            if (dataHandler.PlaneVariables.HasValue)
+            {
+                FlightHandler.GetInstance().LatLongPlanePosition = new PointLatLng(dataHandler.PlaneVariables.Value.PLANE_LATITUDE,
+                    dataHandler.PlaneVariables.Value.PLANE_LONGITUDE);
+                FlightHandler.GetInstance().DAircraftHeadingTrue =
+                    (180 / Math.PI) * dataHandler.PlaneVariables.Value.PLANE_HEADING_DEGREES_TRUE;
+
+
+                if (dataHandler.PlaneVariables.Value.SIM_ON_GROUND == 0)
+                    dataHandler.PlaneLandingData = null;
+                else if (dataHandler.PlaneLandingData != null)
+                {
+                    FlightHandler.GetInstance().DTouchdownPitch = dataHandler.PlaneLandingData.Value.PLANE_TOUCHDOWN_PITCH_DEGREES;
+                    FlightHandler.GetInstance().DTouchdownRate = dataHandler.PlaneLandingData.Value.PLANE_TOUCHDOWN_NORMAL_VELOCITY;
+                }
+                    
+            }
         }
 
         private void OnRecvEvent(Microsoft.FlightSimulator.SimConnect.SimConnect sender, SIMCONNECT_RECV_EVENT data)
         {
-            switch ((Event)data.uEventID)
+            switch ((ReceiveEvents)data.uEventID)
             {
-                case Event.PositionChanged:
+                case ReceiveEvents.PositionChanged:
                     Console.WriteLine(@"Position changed!");
                     break;
-                case Event.PlaneCrashed:
+                case ReceiveEvents.PlaneCrashed:
                     Console.WriteLine(@"Plane crashed");
                     break;
-                default:
-                    throw new ArgumentOutOfRangeException();
             }
         }
 
@@ -231,12 +284,18 @@ namespace MySimPilot
                 case Definition.SimulationVariables:
                     dataHandler.SimVariables = (SimulationVariables)val;
                     break;
+                case Definition.PlaneGaugeStates:
+                    dataHandler.PlaneGaugeStates = (PlaneGaugeStates)val;
+                    break;
+                case Definition.PlaneLandingData:
+                    dataHandler.PlaneLandingData = (PlaneLandingData)val;
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
         }
 
-        private void OnRecvException(Microsoft.FlightSimulator.SimConnect.SimConnect sender,
+        private static void OnRecvException(Microsoft.FlightSimulator.SimConnect.SimConnect sender,
             SIMCONNECT_RECV_EXCEPTION data)
         {
             var eException = (SIMCONNECT_EXCEPTION)data.dwException;
@@ -268,9 +327,18 @@ namespace MySimPilot
             SConnectButtonLabel = "Connected";
             DataHandler.GetInstance().BConnected = true;
             DataHandler.GetInstance().BSimVarTickOdd = false;
+
+            //SimConnection?.MapClientEventToSimEvent(SendEvents.ToggleEngine1Failure, "TOGGLE_ENGINE1_FAILURE");
         }
 
         #endregion
+
+        public void SendEvent(ReceiveEvents receiveEventsName)
+        {
+            SimConnection?.TransmitClientEvent(
+                Microsoft.FlightSimulator.SimConnect.SimConnect.SIMCONNECT_OBJECT_ID_USER,
+                receiveEventsName, 0, GroupPriority.IdPriorityStandard, SIMCONNECT_EVENT_FLAG.GROUPID_IS_PRIORITY);
+        }
 
         public int GetUserSimConnectWinEvent()
         {
@@ -279,7 +347,7 @@ namespace MySimPilot
 
         public void ReceiveSimConnectMessage()
         {
-            _simConnection?.ReceiveMessage();
+            SimConnection?.ReceiveMessage();
         }
 
         public void SetWindowHandle(IntPtr hWnd)

@@ -133,7 +133,6 @@ namespace MySimPilot.Handlers
             });
 
             PilotHandler.GetInstance().PilotData = GetPilotData().Result;
-            Console.WriteLine(PilotHandler.GetInstance().PilotData.LogBook.TotalFightTime);
             Console.WriteLine(@"Logged in as " + User.Info.Email);
         }
 

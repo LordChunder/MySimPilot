@@ -18,16 +18,16 @@ namespace MySimPilot.ViewModel
 
         protected bool SetProperty<T>(ref T tField, T tValue, [CallerMemberName] string sPropertyName = null)
         {
-            return this.SetProperty(ref tField, tValue, out T tPreviousValue, sPropertyName);
+            return SetProperty(ref tField, tValue, out _, sPropertyName);
         }
 
-        protected bool SetProperty<T>(ref T tField, T tValue, out T tPreviousValue, [CallerMemberName] string sPropertyName = null)
+        private bool SetProperty<T>(ref T tField, T tValue, out T tPreviousValue, [CallerMemberName] string sPropertyName = null)
         {
-            if (!object.Equals(tField, tValue))
+            if (!Equals(tField, tValue))
             {
                 tPreviousValue = tField;
                 tField = tValue;
-                this.OnPropertyChanged(sPropertyName);
+                OnPropertyChanged(sPropertyName);
                 return true;
             }
 

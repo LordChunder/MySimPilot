@@ -7,11 +7,14 @@
 	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CUsers_005CAlex_005CDownloads_005Cunitypackage_005Fextractor_005F64_005CAssets_005CFirebase_005CPlugins_005CFirebase_002EAuth_002Edll/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CUsers_005CAlex_005CDownloads_005Cunitypackage_005Fextractor_005F64_005CAssets_005CFirebase_005CPlugins_005Cx86_005F64_005CFirebaseCppApp_002D8_005F1_005F0_002Edll/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CUsers_005CAlex_005CDownloads_005Cunitypackage_005Fextractor_005F64_005CAssets_005CFirebase_005CPlugins_005Cx86_005F64_005CFirebaseCppAuth_002Edll/@EntryIndexedValue">True</s:Boolean>
+	<s:String x:Key="/Default/CodeInspection/Highlighting/SweaWarningsMode/@EntryValue">ShowAndRun</s:String>
 	<s:String x:Key="/Default/CodeInspection/PencilsConfiguration/ActualSeverity/@EntryValue">INFO</s:String>
 	<s:String x:Key="/Default/CodeInspection/PencilsConfiguration/FiltersState/=SpellingFilter/@EntryIndexedValue">Off</s:String>
 	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;&#xD;
   &lt;Assembly Path="C:\Users\Alex\Desktop\SimvarWatcher\packages\FirebaseAuthentication.net.4.0.0-alpha.2\lib\netstandard2.0\Firebase.Auth.dll" /&gt;&#xD;
+  &lt;Assembly Path="C:\Users\Alex\Desktop\SimvarWatcher\packages\GMap.NET.Core.2.0.2\lib\net46\GMap.NET.Core.dll" /&gt;&#xD;
 &lt;/AssemblyExplorer&gt;</s:String>
+	<s:Boolean x:Key="/Default/Environment/Hierarchy/EntityFrameworkOptions/IsAlreadyNotifiedAboutEntityFramework/@EntryValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=MySimPilot_002FProperties_002FResources/@EntryIndexedValue">True</s:Boolean>
 	
 	<s:Boolean x:Key="/Default/ResxEditorPersonal/Initialized/@EntryValue">True</s:Boolean></wpf:ResourceDictionary>

@@ -1,4 +1,5 @@
-﻿namespace MySimPilot.SimConnect
+﻿// ReSharper disable InconsistentNaming
+namespace MySimPilot.SimConnect
 {
      public enum Request
     {
@@ -216,6 +217,8 @@
         PLANE_BANK_DEGREES,
         PLANE_HEADING_DEGREES_TRUE,
         PLANE_HEADING_DEGREES_MAGNETIC,
+        PLANE_TOUCHDOWN_NORMAL_VELOCITY,
+        PLANE_TOUCHDOWN_PITCH_DEGREES,
         MAGVAR,
         GROUND_ALTITUDE,
         SURFACE_TYPE,
@@ -849,5 +852,8 @@
         TIME_OF_DAY,
         SIMULATION_RATE,
         UNITS_OF_MEASURE
+        
+        
+        
     }
 }

@@ -22,7 +22,11 @@ namespace MySimPilot.Handlers
         
        public PlaneMetadatas? PlaneMetadata = null;
        public PlaneVariables? PlaneVariables = null;
+       public PlaneLandingData? PlaneLandingData = null;
        public SimulationVariables? SimVariables = null;
+       public PlaneGaugeStates? PlaneGaugeStates = null;
+       
+       
        
        [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
        // ReSharper disable once CollectionNeverQueried.Global
@@ -34,7 +38,8 @@ namespace MySimPilot.Handlers
            get => _mBSimVarTickOdd;
            internal set => SetProperty(ref _mBSimVarTickOdd, value);
        }
-       
+
+
        [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
        public bool BConnected
        {
@@ -60,5 +65,7 @@ namespace MySimPilot.Handlers
        private string _mSUserAircraftMetaInfo = "Aircraft:\nSelect an Aircraft";
        private string _mSUserSimulationInfo = "Simulation Settings:\nConnect to Flight Sim";
        private bool _mBSimVarTickOdd;
+
+ 
     }
 }

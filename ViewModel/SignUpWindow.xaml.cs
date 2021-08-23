@@ -3,7 +3,7 @@ using MySimPilot.Handlers;
 
 namespace MySimPilot.ViewModel
 {
-    public partial class SignUpWindow : Window
+    public partial class SignUpWindow
     {
         public SignUpWindow()
         {
@@ -13,9 +13,9 @@ namespace MySimPilot.ViewModel
 
         private void btnSignUp_Click(object sender, RoutedEventArgs e)
         {
-            var pass = txtPasswordInput.Password;
-            var passConfirm = txtPasswordInput.Password;
-            var email = txtEmailInput.Text;
+            var pass = TxtPasswordInput.Password;
+            var passConfirm = TxtPasswordConfirm.Password;
+            var email = TxtEmailInput.Text;
 
             if (email.Contains(" ") || !email.Contains("@") || email.Length == 0)
             {

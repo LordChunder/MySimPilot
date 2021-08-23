@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using MySimPilot.Handlers;
 
 namespace MySimPilot.ViewModel
@@ -16,8 +14,8 @@ namespace MySimPilot.ViewModel
 
         private async void btnLogin_Click(object sender, RoutedEventArgs e)
         {
-            var pass = txtPasswordInput.Password;
-            var email = txtEmailInput.Text;
+            var pass = TxtPasswordInput.Password;
+            var email = TxtEmailInput.Text;
 
             if (email.Contains(" ") || !email.Contains("@") || email.Length == 0)
             {

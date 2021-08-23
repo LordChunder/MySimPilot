@@ -1049,6 +1049,16 @@
     "Settable": true,
     "DataType": 4
   },
+  "PLANE TOUCHDOWN NORMAL VELOCITY": {
+    "Unit": "Feet per second",
+    "Settable": false,
+    "DataType": 4
+  },
+  "PLANE TOUCHDOWN PITCH DEGREES": {
+    "Unit": "Degrees",
+    "Settable": false,
+    "DataType": 4
+  },
   "PLANE PITCH DEGREES": {
     "Unit": "Radians",
     "Settable": true,
@@ -4243,5 +4253,6 @@
     "Unit": "Enum",
     "Settable": false,
     "DataType": 4
-  }
+  },
+
 }
